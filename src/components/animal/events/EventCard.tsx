@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import { Card, CardContent, CardHeader, Collapse, IconButton, Typography } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Collapse, IconButton, Paper, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import { green } from '@material-ui/core/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -14,57 +15,63 @@ export default function EventCard({ event }: AnimalCardProps) {
     const eventName = event.type?.type || '';
     const header = `Event type - ${eventName}`;
     const subHeader = `${event.dateTime ? getFormattedDate(event.dateTime) : '-'} / Author`;
+    const elevationLevel = expanded ? 5 : 1;
 
     return (
-        <Card className={classes.root}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="event" alt="event">
-                        <LocalHospitalIcon />
-                    </Avatar>
-                }
-                title={
-                    <Typography component="h6" className={classes.headerText} noWrap>
-                        {header}
-                    </Typography>
-                }
-                subheader={subHeader}
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                onClick={() => setExpanded(!expanded)}
-            />
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent className={classes.content}>
-                    <Typography color="textPrimary" className={classes.label}>
-                        Expenses:
-                    </Typography>
-                    <Typography paragraph color="textSecondary">
-                        {event.expenses || '-'}
-                    </Typography>
-                    <Typography color="textPrimary" className={classes.label}>
-                        Comments:
-                    </Typography>
-                    <Typography paragraph color="textSecondary">
-                        {event.comments || '-'}
-                    </Typography>
-                    <Typography color="textPrimary" className={classes.label}>
-                        Author:
-                    </Typography>
-                    <Typography paragraph color="textSecondary">
-                        -
-                    </Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+        <Paper className={classes.root} component={Card} elevation={elevationLevel}>
+            <Card className={classes.root}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="event" alt="event">
+                            <LocalHospitalIcon />
+                        </Avatar>
+                    }
+                    title={
+                        <Typography component="h6" className={classes.headerText} noWrap>
+                            {header}
+                        </Typography>
+                    }
+                    subheader={subHeader}
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    onClick={() => setExpanded(!expanded)}
+                />
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent className={classes.content}>
+                        <Typography color="textPrimary" className={classes.label}>
+                            Expenses:
+                        </Typography>
+                        <Typography paragraph color="textSecondary">
+                            {event.expenses || '-'}
+                        </Typography>
+                        <Typography color="textPrimary" className={classes.label}>
+                            Comments:
+                        </Typography>
+                        <Typography paragraph color="textSecondary">
+                            {event.comments || '-'}
+                        </Typography>
+                        <Typography color="textPrimary" className={classes.label}>
+                            Author:
+                        </Typography>
+                        <Typography paragraph color="textSecondary">
+                            -
+                        </Typography>
+                    </CardContent>
+                </Collapse>
+            </Card>
+        </Paper>
     );
 }
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
+        '&:hover': {
+            backgroundColor: green[100],
+        },
     },
     headerText: {
         maxWidth: 150,
